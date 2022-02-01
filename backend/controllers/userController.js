@@ -38,7 +38,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Please Enter Email and Password", 400));
   }
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ email }).select("");
   if (!user) {
     return next(new ErrorHandler("INVAILD!! Email and Password", 401));
   }
