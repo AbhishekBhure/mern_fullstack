@@ -74,13 +74,13 @@
   box-shadow: none;
 }
 
-.wrapper {
+/* .wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* height: 4rem; */
+  height: 4rem;
   height: 100px;
 }
 
@@ -106,7 +106,7 @@
 }
 
 .wrapper > input {
-  /* height: inherit; */
+  height: inherit;
   width: 16rem;
   border: 2px solid black;
   border-radius: 0.5rem;
@@ -128,9 +128,22 @@
   transform: translateY(-1.875rem);
 }
 
+
 @media only screen and (max-width: 600px) {
   .label {
     top: 47%;
     left: 2.99rem;
   }
+} */
+
+.speedDial {
+  position: fixed;
+  right: 3vmax;
+  top: 5vmax;
+}
+
+.speedDialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
 }

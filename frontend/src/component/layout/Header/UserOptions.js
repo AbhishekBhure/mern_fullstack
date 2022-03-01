@@ -1,13 +1,21 @@
 import React, { Fragment, useState } from "react";
 import "./Header.css";
 import { SpeedDial, SpeedDialAction } from "@material-ui/lab";
+import Backdrop from "@material-ui/core/Backdrop";
 import PersonIcon from "@material-ui/icons/Person";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAlert } from "react-alert";
+import { logout } from "../../../actions/userAction";
 
 const UserOptions = ({ user }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const alert = useAlert();
+
   const [open, setOpen] = useState(false);
 
   const options = [
@@ -20,21 +28,34 @@ const UserOptions = ({ user }) => {
     options.unshift({
       icon: <DashboardIcon />,
       name: "Dashboard",
-      func: Dashboard,
+      func: dashboard,
     });
   }
 
   function dashboard() {
-    Navigate("/dashboard");
+    navigate("/dashboard");
   }
+  function orders() {
+    navigate("/orders");
+  }
+  function account() {
+    navigate("/account");
+  }
+  function logoutUser() {
+    dispatch(logout());
+    alert.success("Logout Successfully");
+  }
+
   return (
     <Fragment>
+      <Backdrop open={open} style={{ zIndex: "10" }} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
         direction="down"
+        className="speedDial"
         icon={
           <img
             className="speedDialIcon"
@@ -43,7 +64,14 @@ const UserOptions = ({ user }) => {
           />
         }
       >
-        <SpeedDialAction icon={<DashboardIcon />} tooltipTitle="Dashboard" />
+        {options.map((item) => (
+          <SpeedDialAction
+            key={item.name}
+            icon={item.icon}
+            tooltipTitle={item.name}
+            onClick={item.func}
+          />
+        ))}
       </SpeedDial>
     </Fragment>
   );
