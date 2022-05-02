@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import ReviewCard from "./ReviewCard.js";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
+import { addItemsToCart } from "../../actions/cartAction";
 
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
@@ -35,13 +36,30 @@ const ProductDetails = ({ match }) => {
     isHalf: true,
   };
 
+  const [quantity, setQuantity] = useState(1);
+  const increaseQuantity = () => {
+    if (product.Stock <= quantity) return;
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return;
+    const qty = quantity - 1;
+    setQuantity(qty);
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(params.id, quantity));
+    alert.success("item added to cart");
+  };
+
   return (
     <Fragment>
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title={`${product.name} -----ECOMMERCE`} />
+          <MetaData title={`${product.name} --ECOMMERCE`} />
           <div className="ProductDetails">
             <div>
               <Carousel>
@@ -69,15 +87,14 @@ const ProductDetails = ({ match }) => {
                 <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button>-</button>
-                    <input value="1" type="number" />
-                    <button>+</button>
+                    <button onClick={decreaseQuantity}>-</button>
+                    <input readOnly value={quantity} type="number" />
+                    <button onClick={increaseQuantity}>+</button>
                   </div>
-                  {""}
-                  <button>Add To Cart</button>
+                  <button onClick={addToCartHandler}>Add To Cart</button>
                 </div>
                 <p>
-                  Status:{""}
+                  Status:
                   <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
                     {product.Stock < 1 ? "OutOfStock" : "InStock"}
                   </b>

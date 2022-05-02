@@ -3,6 +3,7 @@ import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import { useAlert } from "react-alert";
 
 const Header = () => {
@@ -74,6 +75,9 @@ const Header = () => {
               <button className="btn" type="">
                 <SearchIcon sx={{ color: "white" }} />
               </button>
+              <Link to="/cart">
+                <LocalMallOutlinedIcon />
+              </Link>
               <Link className="accountCircleIcon" to="/login">
                 <AccountCircleIcon />
               </Link>
